@@ -2,7 +2,7 @@
 
 ## Description
 
-It's a simple and lightweight python library for creating TypeDB queries in an Object-Oriented manner, which abstracts string preprocessing from the user. 
+It's a simple and lightweight python library for creating TypeDB queries in an Object-Oriented manner, which abstracts string preprocessing from the user.
 
 The main advantages of this solutions are:
 
