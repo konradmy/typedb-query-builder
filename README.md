@@ -41,7 +41,7 @@ and that's all what you need to create valid TypeDB queries.
 ```python
 from typedb_query_builder import TypeDBQueryBuilder
 
-tql = TypeDBQueryBuilder()
+tqb = TypeDBQueryBuilder()
 
 p1 = tqb.match_entity('protein', 'p1')    # Add a entity to a match statement with a variable 'p1'.
 p1.has('protein_name', 'ACE')             # Assign an attribute of type 'protein_name' with value 'ACE'
