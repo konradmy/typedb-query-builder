@@ -2,8 +2,8 @@ from typedb.client import TypeDB, SessionType, TransactionType
 import time
 from typing import Callable, List
 from datetime import datetime
-from typedb_query_builder.src.utils import LoadingLogger
-from typedb_query_builder.src.typedb_query_builder import TypeDBQueryBuilder
+from typedb_query_builder.utils import LoadingLogger
+from typedb_query_builder.typedb_query_builder import TypeDBQueryBuilder
 import multiprocessing
 
 
