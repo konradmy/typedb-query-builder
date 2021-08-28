@@ -39,7 +39,7 @@ and that's all what you need to create valid TypeDB queries.
 
 ### Example:
 ```python
-from typedb_query_builder import TypeDBQueryBuilder
+from typedb_query_builder.typedb_query_builder import TypeDBQueryBuilder
 
 tqb = TypeDBQueryBuilder()
 
