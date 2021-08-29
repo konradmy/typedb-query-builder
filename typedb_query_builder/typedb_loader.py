@@ -14,15 +14,15 @@ class TypeDBDataLoader:
         self,
         data: List[TypeDBQueryBuilder],
         uri: str,
-        keyspace: str,
         loads_per_transaction: int = 50,
-        cpus: int = 1
+        cpus: int = 1,
+        logs_directory: str = None
     ) -> None:
         self.data = data
         self.uri = uri
-        self.keyspace = keyspace
         self.loads_per_transaction = loads_per_transaction
         self.cpus = cpus
+        self.logs_directory = logs_directory
 
     def load_data(self):
         """Loads data from list of TypeDBQueryBuilder objects.
@@ -32,7 +32,8 @@ class TypeDBDataLoader:
             function=self._load_queries,
             data=queries,
             num_threads=self.cpus,
-            ctn=self.loads_per_transaction)
+            ctn=self.loads_per_transaction,
+            logs_directory=self.logs_directory)
 
     def _get_queries(self) -> List[str]:
         """Extracts queries from list of TypeDBQueryBuilder objects.
@@ -65,7 +66,8 @@ class TypeDBDataLoader:
                 Defaults to 0.
             logs_directory (str, optional): [description]. Defaults to None.
         """
-        logger = LoadingLogger(keyspace="umls")
+        if logs_directory:
+            logger = LoadingLogger(keyspace=logs_directory)
         start = time.time()
         with TypeDB.core_client(self.uri) as client:
             with client.session(self.keyspace, SessionType.DATA) as session:
@@ -82,10 +84,11 @@ class TypeDBDataLoader:
                             TransactionType.WRITE
                             )
                         message = f"{counter},{datetime.now()}"
-                        logger.log_loading(
-                            process_id=process_id,
-                            message=message
-                        )
+                        if logs_directory:
+                            logger.log_loading(
+                                process_id=process_id,
+                                message=message
+                            )
                     if counter % 1000 == 0:
                         print("Process: {}; {} queries added".format(
                                 process_id,
@@ -102,7 +105,8 @@ class TypeDBDataLoader:
         function: Callable,
         data: List[TypeDBQueryBuilder],
         num_threads: int,
-        ctn: int
+        ctn: int,
+        logs_directory: str = None
     ):
         """Runs a specific function to load data to Grakn several time
             in paralell.
@@ -130,7 +134,7 @@ class TypeDBDataLoader:
 
             process = multiprocessing.Process(
                 target=function,
-                args=(chunk, ctn, i)
+                args=(chunk, ctn, i, logs_directory)
                 )
 
             process.start()
