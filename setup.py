@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="typedb_query_builder",
-    version="0.0.1",
+    version="0.0.3",
     author="Konrad Mysliwiec",
     author_email="konradmy@gmail.com",
     description="A lightweight package for building TypeDB queries.",
@@ -13,7 +13,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/konradmy/typedb-query-builder",
     project_urls={
-        "Bug Tracker": "https://github.com/konradmy/typedb-query-builder/issues",
+        "Bug Tracker":
+            "https://github.com/konradmy/typedb-query-builder/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
