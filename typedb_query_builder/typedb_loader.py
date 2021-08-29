@@ -14,12 +14,14 @@ class TypeDBDataLoader:
         self,
         data: List[TypeDBQueryBuilder],
         uri: str,
+        keyspace: str,
         loads_per_transaction: int = 50,
         cpus: int = 1,
         logs_directory: str = None
     ) -> None:
         self.data = data
         self.uri = uri
+        self.keyspace = keyspace
         self.loads_per_transaction = loads_per_transaction
         self.cpus = cpus
         self.logs_directory = logs_directory
@@ -67,7 +69,7 @@ class TypeDBDataLoader:
             logs_directory (str, optional): [description]. Defaults to None.
         """
         if logs_directory:
-            logger = LoadingLogger(keyspace=logs_directory)
+            logger = LoadingLogger(directory=logs_directory)
         start = time.time()
         with TypeDB.core_client(self.uri) as client:
             with client.session(self.keyspace, SessionType.DATA) as session:
