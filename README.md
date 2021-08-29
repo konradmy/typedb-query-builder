@@ -12,14 +12,14 @@ The main advantages of this solutions are:
 
 ## Usage
 
-The main compoenent of this packages is `typedb_query_builder.TypeDBQueryBuilder`.
+The main compoenent of this packages is `typedb_query_builder.typedb_query_builder.TypeDBQueryBuilder`.
 
 It provides you the following methods:
 
 - `match_entity(entity_name: str, variable_name: str)` - used for adding and an entity in match queries.
 - `match_relationship(relationship_name: str, variable_name: str))` - used for adding and a relationship in match queries.
-- `insert_entity(entity_name: str, variable_name: str)` - used for adding and entity in inert queries.
-- `insert_relationship(relationship_name: str, variable_name: str))` - used for adding and a relationship in match queries.
+- `insert_entity(entity_name: str, variable_name: str)` - used for adding and entity in insert queries.
+- `insert_relationship(relationship_name: str, variable_name: str))` - used for adding a relationship in match queries.
 
 `entity_name` and `relationship_name` are the actual names of the concepts in schema, while `variable_name` is just a variable that you want to assign to it - in the same way as you would assign a concept to a variable in a TypeDB query (note that within one query, one TypeDBQueryBuilder instance, the same variable name cannot be used for several concepts).
 
@@ -29,16 +29,12 @@ Each of these functions return an object of one of the following types: `TypeDBE
 
 - `has(attribute_name: str,
       attribute_value: str,
-      attribute_type: str = 'string')` - which assign an attribute to an Entity o Relationship. The attribute type is provided by `attribute_name`, it's actual value by `attribute_value`. Optionally you can specify a type of the attribute according to it's value in a schema, so that the `TypeDBQueryBuilder` will be able to create the right query that will be inline with a given schema. If not provided `TypeDBQueryBuilder` will assume that the type is of type `string`.
+        attribute_type: str = 'string')` - which assign an attribute to an Entity or Relationship. The attribute type is provided by `attribute_name`, it's actual value by `attribute_value`. Optionally you can specify a type of the attribute according to it's value in a schema, so that the `TypeDBQueryBuilder` will be able to create the right query which will be in line with a given schema. If not provided `TypeDBQueryBuilder` will assume that the attribute is of type `string`.
 
 Additionally, `TypeDBRelationshipQuery` has method for adding related objects:
 
-- `relates(
-      self,
-      role: str,
-      thing: Union[TypeDBEntityQuery, "TypeDBRelationshipQuery"])` - which allows you to add a Thing (Entity/Relathinship) to a given relation under a certain role provided by `role` argument. `thing` specifies what concept should be added to a relationship. It has to already instantiated object of type `TypeDBEntityQuery` or `TypeDBRelationshipQuery`.
-
-and that's all what you need to create valid TypeDB queries.
+- `relates(role: str,
+      thing: Union[TypeDBEntityQuery, "TypeDBRelationshipQuery"])` - which allows you to add a Thing (Entity/Relathinship) to a given relation under a certain role provided by `role` argument. `thing` specifies what concept should be added to a relationship. It has to be already instantiated object of type `TypeDBEntityQuery` or `TypeDBRelationshipQuery`.
 
 ### Example
 
@@ -47,11 +43,11 @@ from typedb_query_builder.typedb_query_builder import TypeDBQueryBuilder
 
 tqb = TypeDBQueryBuilder()
 
-p1 = tqb.match_entity('protein', 'p1')    # Add a entity to a match statement with a variable 'p1'.
+p1 = tqb.match_entity('protein', 'p1')    # Add an entity of type 'protein' to a match statement with a variable 'p1'.
 p1.has('protein_name', 'ACE')             # Assign an attribute of type 'protein_name' with value 'ACE'
 p1.has('protein_id', 'Q1')
 
-p2 = tqb.match_entity('protein', 'p2')    # Add a second entity to a match statement with a variable 'p2'.
+p2 = tqb.match_entity('protein', 'p2')    # Add a second entity of type 'protein' to a match statement with a variable 'p2'.
 p2.has('protein_name', 'ACE2')            # Assign an attribute of type 'protein_name' with value 'ACE2'
 p2.has('protein_id', 'Q2')
 p2.has('external-id', 1, 'double')        # This entity has an attribute 'external-id' which is of type double.
