@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="typedb_query_builder",
-    version="0.0.3",
+    version="0.0.4",
     author="Konrad Mysliwiec",
     author_email="konradmy@gmail.com",
     description="A lightweight package for building TypeDB queries.",
