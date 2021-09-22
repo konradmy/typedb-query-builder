@@ -122,12 +122,16 @@ class TypeDBQueryBuilder:
         return typedb_relationship
 
     def compile_query(self):
-        match_query = 'match '
-        match_query += self.compile_entities_query('match')
-        match_query += self.compile_relationships_query('match')
-        insert_query = 'insert '
-        insert_query += self.compile_entities_query('insert')
-        insert_query += self.compile_relationships_query('insert')
+        match_query = ''
+        insert_query = ''
+        if self.match_entities or self.match_relationships:
+            match_query = 'match '
+            match_query += self.compile_entities_query('match')
+            match_query += self.compile_relationships_query('match')
+        if self.insert_entities or self.insert_relationships:
+            insert_query = 'insert '
+            insert_query += self.compile_entities_query('insert')
+            insert_query += self.compile_relationships_query('insert')
         self.query = f'{match_query}{insert_query}'
 
     def compile_entities_query(self, query_type: str):
